@@ -24,8 +24,6 @@ func _on_Bullet_body_entered(body: Node) -> void:
 		return
 
 	# Tell the body it is hit
-	var enemy: Enemy = body as Enemy
-	if enemy:
-		enemy.hit(self)
+	body.hit(self)
 
 	queue_free()

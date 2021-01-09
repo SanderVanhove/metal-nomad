@@ -8,19 +8,19 @@
 [node name="Enemies" type="Node2D" parent="."]
 
 [node name="Enemy" parent="Enemies" instance=ExtResource( 2 )]
-position = Vector2( 120.58, 106.793 )
+position = Vector2( 866.213, 117.496 )
 
 [node name="Enemy2" parent="Enemies" instance=ExtResource( 2 )]
-position = Vector2( 344.657, 91.4307 )
+position = Vector2( 643.148, -69.1122 )
 
 [node name="Enemy3" parent="Enemies" instance=ExtResource( 2 )]
-position = Vector2( 155.013, 242.934 )
+position = Vector2( 855.456, 275.637 )
 
 [node name="Enemy4" parent="Enemies" instance=ExtResource( 2 )]
-position = Vector2( 396.57, 240.815 )
+position = Vector2( 626.087, 393.034 )
 
 [node name="Enemy5" parent="Enemies" instance=ExtResource( 2 )]
-position = Vector2( 381.208, 154.998 )
+position = Vector2( 936.568, -127.439 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 247.667, 174.023 )

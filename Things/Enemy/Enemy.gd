@@ -5,14 +5,15 @@ class_name Enemy
 const SCALE_MIN: float = .7
 const SCALE_MAX: float = 3.5
 
-const MAX_SPEED: int = 300
 const ACCELERATION: int = 2000
 
 onready var _tween: Tween = $Tween
 onready var _visual: Node2D = $Visual
 onready var _collision: CollisionShape2D = $CollisionShape2D
 onready var _blood_particles: CPUParticles2D = $Visual/Blood
+onready var _sprite: Sprite = $Visual/Sprite
 
+var _max_speed: int = 100
 var _motion: Vector2 = Vector2.ZERO
 var _is_chasing: bool = false
 var _player: Node2D
@@ -20,6 +21,7 @@ var _player: Node2D
 func _ready() -> void:
 	_visual.scale = Vector2.ONE * rand_range(SCALE_MIN, SCALE_MAX)
 	_collision.scale = _visual.scale
+	_max_speed *= _visual.scale.x
 
 
 func _physics_process(delta: float) -> void:
@@ -28,7 +30,7 @@ func _physics_process(delta: float) -> void:
 		return
 
 	var angle: float = get_angle_to(_player.position)
-	apply_movement(Vector2.RIGHT * angle * ACCELERATION * delta)
+	apply_movement(Vector2.RIGHT.rotated(angle) * ACCELERATION * delta)
 	_motion = move_and_slide(_motion)
 
 
@@ -41,7 +43,7 @@ func apply_friction(amount: float) -> void:
 
 func apply_movement(acceleration: Vector2) -> void:
 	_motion += acceleration
-	_motion = _motion.clamped(MAX_SPEED)
+	_motion = _motion.clamped(_max_speed)
 
 
 func hit(projectile: Node2D) -> void:
@@ -56,17 +58,20 @@ func hit(projectile: Node2D) -> void:
 	_tween.interpolate_property(self, 'position:y', position.y, die_jump.y, .1)
 	_tween.start()
 
+	_sprite.self_modulate = _sprite.self_modulate.darkened(.4)
+
 	var player = projectile.shot_by
 	player.hit_an_enemy(self)
 
+	set_physics_process(false)
+
 
 func _on_DetectionArea_body_entered(body: Node) -> void:
-	print(body.get_class())
-	if body.is_class('Player'):
+	if body as Player:
 		_is_chasing = true
 		_player = body
 
 
 func _on_DetectionArea_body_exited(body: Node) -> void:
-	if body.is_class('Player'):
+	if body as Player:
 		_is_chasing = false
