@@ -1,0 +1,34 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Things/Player/player.png" type="Texture" id=1]
+[ext_resource path="res://Things/Player/Player.gd" type="Script" id=2]
+[ext_resource path="res://Things/Player/ScreenShake.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Things/Player/Camera.gd" type="Script" id=4]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 7.67866
+
+[node name="Player" type="KinematicBody2D"]
+script = ExtResource( 2 )
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Sprite" type="Sprite" parent="Visual"]
+texture = ExtResource( 1 )
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="Camera" type="Camera2D" parent="."]
+current = true
+drag_margin_h_enabled = true
+drag_margin_v_enabled = true
+smoothing_enabled = true
+smoothing_speed = 10.0
+drag_margin_left = 0.1
+drag_margin_top = 0.1
+drag_margin_right = 0.1
+drag_margin_bottom = 0.1
+script = ExtResource( 4 )
+
+[node name="ScreenShake" parent="Camera" instance=ExtResource( 3 )]
