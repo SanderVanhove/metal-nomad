@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/3-Audio 0007 [2021-01-09 212930].wav-122b9a1e281f92da81ef5cd79b08c260.sample"
+
+[deps]
+
+source_file="res://Things/Music/music Project/Samples/Recorded/3-Audio 0007 [2021-01-09 212930].wav"
+dest_files=[ "res://.import/3-Audio 0007 [2021-01-09 212930].wav-122b9a1e281f92da81ef5cd79b08c260.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

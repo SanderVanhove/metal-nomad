@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Things/Player/player.png" type="Texture" id=1]
 [ext_resource path="res://Things/Player/Player.gd" type="Script" id=2]
 [ext_resource path="res://Things/Player/ScreenShake.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Things/Player/Camera.gd" type="Script" id=4]
+[ext_resource path="res://Things/Music/Composer.tscn" type="PackedScene" id=5]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 7.67866
@@ -32,3 +33,5 @@ drag_margin_bottom = 0.1
 script = ExtResource( 4 )
 
 [node name="ScreenShake" parent="Camera" instance=ExtResource( 3 )]
+
+[node name="Composer" parent="." instance=ExtResource( 5 )]

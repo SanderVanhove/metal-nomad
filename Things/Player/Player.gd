@@ -9,6 +9,7 @@ const ACCELERATION: int = 2000
 var _motion: Vector2 = Vector2.ZERO
 
 onready var _camera: ShakingCamera = $Camera
+onready var _composer: Composer = $Composer
 
 
 func _input(event: InputEvent) -> void:
@@ -17,6 +18,9 @@ func _input(event: InputEvent) -> void:
 
 
 func fire_bullet(mouse_position: Vector2) -> void:
+	if not _composer.can_shoot():
+		return
+
 	var bullet = bullet_class.instance()
 
 	bullet.position = position

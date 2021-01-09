@@ -13,7 +13,7 @@ onready var _collision: CollisionShape2D = $CollisionShape2D
 onready var _blood_particles: CPUParticles2D = $Visual/Blood
 onready var _sprite: Sprite = $Visual/Sprite
 
-var _max_speed: int = 100
+var _max_speed: int = 200
 var _motion: Vector2 = Vector2.ZERO
 var _is_chasing: bool = false
 var _player: Node2D
@@ -21,7 +21,7 @@ var _player: Node2D
 func _ready() -> void:
 	_visual.scale = Vector2.ONE * rand_range(SCALE_MIN, SCALE_MAX)
 	_collision.scale = _visual.scale
-	_max_speed *= _visual.scale.x
+	_max_speed += 100 * _visual.scale.x / 2
 
 
 func _physics_process(delta: float) -> void:
