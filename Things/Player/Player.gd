@@ -19,6 +19,7 @@ onready var _indicator: Indicator = $Camera/Control/Indicator
 onready var _miss_player: AudioStreamPlayer2D = $Miss
 onready var _die_timer: Timer = $DieTimer
 onready var _die_player: AudioStreamPlayer2D = $Die
+onready var _monster_player: AudioStreamPlayer2D = $Monster
 
 onready var _is_shooting: bool = false
 onready var _is_dead: bool = false
@@ -40,12 +41,17 @@ func _input(event: InputEvent) -> void:
 		fire_bullet(event.position)
 
 
+func play_miss_sound() -> void:
+	_miss_player.stream.audio_stream = misses[round(rand_range(0, len(misses) - 1))]
+	_miss_player.play()
+
+
 func fire_bullet(mouse_position: Vector2) -> void:
 	if _is_shooting or not Composer.can_shoot() or _last_click > 0 or _is_dead:
 		_last_click = Composer._position_within_beat
 		_indicator.missed()
-		_miss_player.stream.audio_stream = misses[round(rand_range(0, len(misses) - 1))]
-		_miss_player.play()
+
+		play_miss_sound()
 		return
 
 	Composer.play_chords()
@@ -132,6 +138,13 @@ func _on_Area2D_body_entered(body: Node) -> void:
 		_sprite.animation = "Die"
 		_die_timer.start()
 		_die_player.play()
+		_monster_player.play()
+
+		Composer.stop()
+
+		play_miss_sound()
+
+		_indicator.stop()
 
 
 func _on_DieTimer_timeout() -> void:

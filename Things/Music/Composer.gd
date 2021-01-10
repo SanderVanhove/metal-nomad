@@ -23,6 +23,11 @@ func play() -> void:
 	_power_chords.volume_db = -80
 
 
+func stop() -> void:
+	_music.stop()
+	_power_chords.stop()
+
+
 func _physics_process(delta: float) -> void:
 	_current_position = _music.get_playback_position() + AudioServer.get_time_since_last_mix() - AudioServer.get_output_latency()
 	var bar = _current_position / SPB

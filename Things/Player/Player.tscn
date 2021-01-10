@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://Things/Player/player9.png" type="Texture" id=1]
 [ext_resource path="res://Things/Player/Player.gd" type="Script" id=2]
@@ -22,6 +22,7 @@
 [ext_resource path="res://Things/Player/player16.png" type="Texture" id=20]
 [ext_resource path="res://Things/Player/player12.png" type="Texture" id=21]
 [ext_resource path="res://Things/Player/die.wav" type="AudioStream" id=22]
+[ext_resource path="res://Things/Player/troll_attack.WAV" type="AudioStream" id=23]
 
 [sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0, 0.562914, 1 )
@@ -39,15 +40,15 @@ animations = [ {
 "name": "Run",
 "speed": 15.0
 }, {
-"frames": [ ExtResource( 9 ), ExtResource( 14 ), ExtResource( 11 ), ExtResource( 16 ), ExtResource( 11 ), ExtResource( 14 ) ],
-"loop": true,
-"name": "Idle",
-"speed": 10.5
-}, {
 "frames": [ ExtResource( 13 ), ExtResource( 12 ), ExtResource( 8 ), ExtResource( 12 ) ],
 "loop": false,
 "name": "Chord",
 "speed": 17.0
+}, {
+"frames": [ ExtResource( 9 ), ExtResource( 14 ), ExtResource( 11 ), ExtResource( 16 ), ExtResource( 11 ), ExtResource( 14 ) ],
+"loop": true,
+"name": "Idle",
+"speed": 10.5
 } ]
 
 [sub_resource type="CapsuleShape2D" id=3]
@@ -122,6 +123,7 @@ __meta__ = {
 
 [node name="Miss" type="AudioStreamPlayer2D" parent="."]
 stream = SubResource( 4 )
+volume_db = 3.0
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 2
@@ -137,5 +139,9 @@ one_shot = true
 [node name="Die" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 22 )
 volume_db = 15.0
+
+[node name="Monster" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 23 )
+volume_db = 3.0
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
 [connection signal="timeout" from="DieTimer" to="." method="_on_DieTimer_timeout"]

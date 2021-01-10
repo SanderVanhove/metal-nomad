@@ -25,3 +25,7 @@ func _process(delta: float) -> void:
 func missed() -> void:
 	_pick.visible = false
 	_wrong = _pick.position.x
+
+
+func stop() -> void:
+	queue_free()
