@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Screens/Intro/Intro.gd" type="Script" id=1]
+[ext_resource path="res://Things/Story/flyer.png" type="Texture" id=2]
+[ext_resource path="res://Things/Story/intro_read.wav" type="AudioStream" id=3]
+
+[node name="Intro" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="flyer" type="Sprite" parent="."]
+position = Vector2( 259.997, 125.505 )
+scale = Vector2( 1.63454, 1.63454 )
+texture = ExtResource( 2 )
+
+[node name="Tween" type="Tween" parent="."]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+volume_db = 3.714
+
+[node name="Label" type="Label" parent="."]
+margin_left = 70.3186
+margin_top = 261.453
+margin_right = 455.319
+margin_bottom = 292.453
+text = "Hmm, what is this? A flyer for the Tribes Gathering huh?
+Well I'll have to make haste, its already in 3 days, ROCK ON!"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}

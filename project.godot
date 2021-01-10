@@ -57,7 +57,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Metal Nomad"
-run/main_scene="res://Screens/Level/Level.tscn"
+run/main_scene="res://Screens/Title/Title.tscn"
 config/icon="res://icon.png"
 
 [autoload]
