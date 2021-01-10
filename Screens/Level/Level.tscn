@@ -8,6 +8,8 @@
 
 [node name="Enemies" type="Node2D" parent="."]
 
+[node name="DeadEnemies" type="Node2D" parent="Enemies"]
+
 [node name="Enemy" parent="Enemies" instance=ExtResource( 2 )]
 position = Vector2( 632.865, 154.006 )
 

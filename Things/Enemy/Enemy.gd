@@ -11,7 +11,7 @@ onready var _tween: Tween = $Tween
 onready var _visual: Node2D = $Visual
 onready var _collision: CollisionShape2D = $CollisionShape2D
 onready var _blood_particles: CPUParticles2D = $Visual/Blood
-onready var _sprite: Sprite = $Visual/Sprite
+onready var _sprite: AnimatedSprite = $Visual/Sprite
 
 var _max_speed: int = 200
 var _motion: Vector2 = Vector2.ZERO
@@ -54,16 +54,20 @@ func hit(projectile: Node2D) -> void:
 	set_collision_mask_bit(0, false)
 
 	var die_jump: Vector2 = position + Vector2(30, 0).rotated(projectile.direction)
-	_tween.interpolate_property(self, 'position:x', position.x, die_jump.x, .1)
-	_tween.interpolate_property(self, 'position:y', position.y, die_jump.y, .1)
+	_tween.interpolate_property(self, 'position:x', position.x, die_jump.x, .1, Tween.TRANS_EXPO, Tween.EASE_OUT)
+	_tween.interpolate_property(self, 'position:y', position.y, die_jump.y, .1, Tween.TRANS_BOUNCE, Tween.EASE_OUT)
+	_tween.interpolate_property(_sprite, 'modulate', _sprite.modulate, _sprite.modulate.darkened(.3), .4)
 	_tween.start()
 
-	_sprite.self_modulate = _sprite.self_modulate.darkened(.4)
+	get_parent().get_node("DeadEnemies").add_child(self)
+	self.z_index = -1
 
 	var player = projectile.shot_by
 	player.hit_an_enemy(self)
 
 	set_physics_process(false)
+
+	_sprite.animation = "Die"
 
 
 func _on_DetectionArea_body_entered(body: Node) -> void:
