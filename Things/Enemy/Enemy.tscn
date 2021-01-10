@@ -20,14 +20,14 @@
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 7 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 5 ), ExtResource( 15 ), ExtResource( 8 ), ExtResource( 9 ) ],
-"loop": false,
-"name": "Die",
-"speed": 15.0
-}, {
 "frames": [ ExtResource( 1 ), ExtResource( 6 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 4 ), ExtResource( 11 ), ExtResource( 10 ), ExtResource( 6 ) ],
 "loop": true,
 "name": "Run",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 7 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 5 ), ExtResource( 15 ), ExtResource( 8 ), ExtResource( 9 ) ],
+"loop": false,
+"name": "Die",
 "speed": 15.0
 } ]
 
@@ -44,6 +44,8 @@ audio_stream = ExtResource( 16 )
 audio_stream = ExtResource( 17 )
 
 [node name="Enemy" type="KinematicBody2D"]
+collision_layer = 3
+collision_mask = 2147483651
 script = ExtResource( 2 )
 
 [node name="Visual" type="Node2D" parent="."]
@@ -55,7 +57,7 @@ scale = Vector2( 1.38218, 1.38218 )
 [node name="Sprite" type="AnimatedSprite" parent="Visual"]
 frames = SubResource( 1 )
 animation = "Run"
-frame = 3
+frame = 5
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

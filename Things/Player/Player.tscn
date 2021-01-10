@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://Things/Player/player9.png" type="Texture" id=1]
 [ext_resource path="res://Things/Player/Player.gd" type="Script" id=2]
@@ -16,14 +16,24 @@
 [ext_resource path="res://Things/Player/player2.png" type="Texture" id=14]
 [ext_resource path="res://Things/Player/player8.png" type="Texture" id=15]
 [ext_resource path="res://Things/Player/player4.png" type="Texture" id=16]
-[ext_resource path="res://Things/Indicator/Indicator.gd" type="Script" id=17]
+[ext_resource path="res://Things/Player/player13.png" type="Texture" id=17]
+[ext_resource path="res://Things/Player/player15.png" type="Texture" id=18]
+[ext_resource path="res://Things/Player/player14.png" type="Texture" id=19]
+[ext_resource path="res://Things/Player/player16.png" type="Texture" id=20]
+[ext_resource path="res://Things/Player/player12.png" type="Texture" id=21]
+[ext_resource path="res://Things/Player/die.wav" type="AudioStream" id=22]
 
-[sub_resource type="Gradient" id=3]
+[sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0, 0.562914, 1 )
 colors = PoolColorArray( 1, 1, 1, 1, 0, 0.486275, 1, 1, 0, 0.156863, 0.678431, 0.168627 )
 
-[sub_resource type="SpriteFrames" id=1]
+[sub_resource type="SpriteFrames" id=2]
 animations = [ {
+"frames": [ ExtResource( 21 ), ExtResource( 17 ), ExtResource( 19 ), ExtResource( 18 ), ExtResource( 20 ) ],
+"loop": false,
+"name": "Die",
+"speed": 10.0
+}, {
 "frames": [ ExtResource( 15 ), ExtResource( 1 ), ExtResource( 7 ), ExtResource( 10 ) ],
 "loop": true,
 "name": "Run",
@@ -40,7 +50,7 @@ animations = [ {
 "speed": 17.0
 } ]
 
-[sub_resource type="CapsuleShape2D" id=6]
+[sub_resource type="CapsuleShape2D" id=3]
 height = 7.6393
 
 [sub_resource type="AudioStreamRandomPitch" id=4]
@@ -66,11 +76,11 @@ initial_velocity = 105.57
 initial_velocity_random = 0.19
 scale_amount = 3.0
 scale_amount_random = 0.45
-color_ramp = SubResource( 3 )
+color_ramp = SubResource( 1 )
 
 [node name="Sprite" type="AnimatedSprite" parent="Visual"]
-frames = SubResource( 1 )
-animation = "Idle"
+frames = SubResource( 2 )
+animation = "Die"
 frame = 4
 playing = true
 
@@ -82,7 +92,7 @@ texture = ExtResource( 6 )
 
 [node name="Collision" type="CollisionShape2D" parent="."]
 position = Vector2( -1.78583, 4.7622 )
-shape = SubResource( 6 )
+shape = SubResource( 3 )
 
 [node name="Camera" type="Camera2D" parent="."]
 current = true
@@ -106,11 +116,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Indicator" type="Control" parent="Camera/Control" instance=ExtResource( 5 )]
-script = ExtResource( 17 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="Indicator" parent="Camera/Control" instance=ExtResource( 5 )]
 
 [node name="ScreenShake" parent="Camera" instance=ExtResource( 3 )]
 
@@ -118,8 +124,18 @@ __meta__ = {
 stream = SubResource( 4 )
 
 [node name="Area2D" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2( -1.78583, 3.9685 )
 shape = SubResource( 5 )
+
+[node name="DieTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Die" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 22 )
+volume_db = 15.0
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
+[connection signal="timeout" from="DieTimer" to="." method="_on_DieTimer_timeout"]

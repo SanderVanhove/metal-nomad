@@ -1,6 +1,8 @@
 extends Node2D
 class_name Level
 
+export(String) var self_path = "res://Screens/Level/Level.tscn"
+
 
 onready var _player = $Player
 onready var _tween: Tween = $Tween
@@ -19,4 +21,4 @@ func _process(delta: float) -> void:
 
 
 func respawn() -> void:
-	get_tree().change_scene(self)
+	get_tree().change_scene(self_path)

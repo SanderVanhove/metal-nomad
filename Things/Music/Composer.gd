@@ -16,7 +16,9 @@ var _position_within_beat: float = 0
 
 
 func play() -> void:
+	_music.seek(0)
 	_music.play()
+	_power_chords.seek(0)
 	_power_chords.play()
 	_power_chords.volume_db = -80
 

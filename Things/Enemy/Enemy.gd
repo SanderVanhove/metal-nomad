@@ -62,6 +62,8 @@ func hit(projectile: Node2D) -> void:
 
 	set_collision_layer_bit(0, false)
 	set_collision_mask_bit(0, false)
+	set_collision_layer_bit(1, false)
+	set_collision_mask_bit(1, false)
 
 	var die_jump: Vector2 = position + Vector2(30, 0).rotated(projectile.direction)
 	_tween.interpolate_property(self, 'position:x', position.x, die_jump.x, .1, Tween.TRANS_EXPO, Tween.EASE_OUT)
