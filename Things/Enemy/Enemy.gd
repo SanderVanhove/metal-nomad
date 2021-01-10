@@ -31,6 +31,9 @@ func _physics_process(delta: float) -> void:
 
 	var angle: float = get_angle_to(_player.position)
 	apply_movement(Vector2.RIGHT.rotated(angle) * ACCELERATION * delta)
+
+	_sprite.flip_h = _motion.x > 0
+
 	_motion = move_and_slide(_motion)
 
 

@@ -16,7 +16,7 @@
 [ext_resource path="res://Things/Enemy/enemy9.png" type="Texture" id=14]
 [ext_resource path="res://Things/Enemy/enemy11.png" type="Texture" id=15]
 
-[sub_resource type="SpriteFrames" id=3]
+[sub_resource type="SpriteFrames" id=1]
 animations = [ {
 "frames": [ ExtResource( 1 ), ExtResource( 6 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 4 ), ExtResource( 11 ), ExtResource( 10 ), ExtResource( 6 ) ],
 "loop": true,
@@ -29,30 +29,30 @@ animations = [ {
 "speed": 15.0
 } ]
 
-[sub_resource type="CircleShape2D" id=1]
+[sub_resource type="CircleShape2D" id=2]
 radius = 14.0731
 
-[sub_resource type="CircleShape2D" id=2]
+[sub_resource type="CircleShape2D" id=3]
 radius = 372.989
 
 [node name="Enemy" type="KinematicBody2D"]
 script = ExtResource( 2 )
 
 [node name="Visual" type="Node2D" parent="."]
-scale = Vector2( 3.20559, 3.20559 )
+scale = Vector2( 1.47922, 1.47922 )
 
 [node name="Blood" parent="Visual" instance=ExtResource( 3 )]
 scale = Vector2( 1.38218, 1.38218 )
 
 [node name="Sprite" type="AnimatedSprite" parent="Visual"]
-frames = SubResource( 3 )
+frames = SubResource( 1 )
 animation = "Run"
 frame = 4
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-scale = Vector2( 3.20559, 3.20559 )
-shape = SubResource( 1 )
+scale = Vector2( 1.47922, 1.47922 )
+shape = SubResource( 2 )
 
 [node name="Tween" type="Tween" parent="."]
 
@@ -60,6 +60,6 @@ shape = SubResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
 visible = false
-shape = SubResource( 2 )
+shape = SubResource( 3 )
 [connection signal="body_entered" from="DetectionArea" to="." method="_on_DetectionArea_body_entered"]
 [connection signal="body_exited" from="DetectionArea" to="." method="_on_DetectionArea_body_exited"]
