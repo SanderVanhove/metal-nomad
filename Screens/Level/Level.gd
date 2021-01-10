@@ -5,6 +5,7 @@ export(String) var self_path = "res://Screens/Level/Level.tscn"
 export(String) var next_level = "res://Screens/Level/Level.tscn"
 export(AudioStreamSample) onready var win_text
 export(String) var day_number = "   One"
+export(bool) var ends_game = false
 
 
 onready var _player = $Player
@@ -42,6 +43,8 @@ func respawn() -> void:
 
 
 func _on_Oasis_player_arrived() -> void:
+	if ends_game:
+		return
 	_player._is_dead = true
 	_end_player.stream = win_text
 	_end_player.play()
