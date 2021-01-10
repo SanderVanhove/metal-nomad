@@ -6,6 +6,8 @@ const CAMERA_OFFSET_MULT: Vector2 = Vector2(.2, .4)
 
 onready var _screen_shake: ScreenShake = $ScreenShake
 
+var _last_offset: Vector2
+
 
 func _process(delta: float) -> void:
 	offset = (get_local_mouse_position() * CAMERA_OFFSET_MULT).clamped(MAX_CAMERA_OFFSET)

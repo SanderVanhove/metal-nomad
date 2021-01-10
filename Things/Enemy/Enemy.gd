@@ -2,6 +2,12 @@ tool
 extends KinematicBody2D
 class_name Enemy
 
+var cries: Array = [
+	preload("res://Things/Enemy/die01.WAV"),
+	preload("res://Things/Enemy/die02.WAV"),
+	preload("res://Things/Enemy/die03.WAV"),
+]
+
 const SCALE_MIN: float = .7
 const SCALE_MAX: float = 3.5
 
@@ -12,6 +18,7 @@ onready var _visual: Node2D = $Visual
 onready var _collision: CollisionShape2D = $CollisionShape2D
 onready var _blood_particles: CPUParticles2D = $Visual/Blood
 onready var _sprite: AnimatedSprite = $Visual/Sprite
+onready var _die_player: AudioStreamPlayer2D = $Die
 
 var _max_speed: int = 200
 var _motion: Vector2 = Vector2.ZERO
@@ -71,6 +78,10 @@ func hit(projectile: Node2D) -> void:
 	set_physics_process(false)
 
 	_sprite.animation = "Die"
+
+	_die_player.stream.audio_stream = cries[round(rand_range(0, len(cries) - 1))]
+	_die_player.play()
+	$Blood.play()
 
 
 func _on_DetectionArea_body_entered(body: Node) -> void:

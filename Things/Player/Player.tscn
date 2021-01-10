@@ -1,10 +1,10 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://Things/Player/player9.png" type="Texture" id=1]
 [ext_resource path="res://Things/Player/Player.gd" type="Script" id=2]
 [ext_resource path="res://Things/Player/ScreenShake.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Things/Player/Camera.gd" type="Script" id=4]
-[ext_resource path="res://Things/Music/Composer.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Things/Indicator/Indicator.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Things/Player/bevel.png" type="Texture" id=6]
 [ext_resource path="res://Things/Player/player10.png" type="Texture" id=7]
 [ext_resource path="res://Things/Player/player7.png" type="Texture" id=8]
@@ -16,8 +16,13 @@
 [ext_resource path="res://Things/Player/player2.png" type="Texture" id=14]
 [ext_resource path="res://Things/Player/player8.png" type="Texture" id=15]
 [ext_resource path="res://Things/Player/player4.png" type="Texture" id=16]
+[ext_resource path="res://Things/Indicator/Indicator.gd" type="Script" id=17]
 
-[sub_resource type="SpriteFrames" id=2]
+[sub_resource type="Gradient" id=3]
+offsets = PoolRealArray( 0, 0.562914, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 0, 0.486275, 1, 1, 0, 0.156863, 0.678431, 0.168627 )
+
+[sub_resource type="SpriteFrames" id=1]
 animations = [ {
 "frames": [ ExtResource( 15 ), ExtResource( 1 ), ExtResource( 7 ), ExtResource( 10 ) ],
 "loop": true,
@@ -35,22 +40,49 @@ animations = [ {
 "speed": 17.0
 } ]
 
-[sub_resource type="CircleShape2D" id=1]
-radius = 15.2309
+[sub_resource type="CapsuleShape2D" id=6]
+height = 7.6393
+
+[sub_resource type="AudioStreamRandomPitch" id=4]
+
+[sub_resource type="CapsuleShape2D" id=5]
+radius = 10.3064
+height = 10.4173
 
 [node name="Player" type="KinematicBody2D"]
 script = ExtResource( 2 )
 
 [node name="Visual" type="Node2D" parent="."]
 
+[node name="ChordParticles" type="CPUParticles2D" parent="Visual"]
+emitting = false
+amount = 40
+lifetime = 0.5
+one_shot = true
+explosiveness = 0.66
+spread = 180.0
+gravity = Vector2( 0, 20 )
+initial_velocity = 105.57
+initial_velocity_random = 0.19
+scale_amount = 3.0
+scale_amount_random = 0.45
+color_ramp = SubResource( 3 )
+
 [node name="Sprite" type="AnimatedSprite" parent="Visual"]
-frames = SubResource( 2 )
+frames = SubResource( 1 )
 animation = "Idle"
-frame = 3
+frame = 4
 playing = true
 
+[node name="bevel" type="Sprite" parent="Visual"]
+modulate = Color( 1, 1, 1, 0.65098 )
+position = Vector2( 0.21167, -2.21774 )
+scale = Vector2( 0.572809, 0.579801 )
+texture = ExtResource( 6 )
+
 [node name="Collision" type="CollisionShape2D" parent="."]
-shape = SubResource( 1 )
+position = Vector2( -1.78583, 4.7622 )
+shape = SubResource( 6 )
 
 [node name="Camera" type="Camera2D" parent="."]
 current = true
@@ -64,16 +96,30 @@ drag_margin_right = 0.1
 drag_margin_bottom = 0.1
 script = ExtResource( 4 )
 
+[node name="Control" type="Control" parent="Camera"]
+margin_left = -1.13428
+margin_top = 86.2336
+margin_right = 506.866
+margin_bottom = 382.234
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Indicator" type="Control" parent="Camera/Control" instance=ExtResource( 5 )]
+script = ExtResource( 17 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="ScreenShake" parent="Camera" instance=ExtResource( 3 )]
 
-[node name="bevel" type="Sprite" parent="Camera"]
-position = Vector2( 0.21167, -2.21774 )
-scale = Vector2( 0.635734, 0.751097 )
-texture = ExtResource( 6 )
+[node name="Miss" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource( 4 )
 
-[node name="Composer" parent="." instance=ExtResource( 5 )]
+[node name="Area2D" type="Area2D" parent="."]
 
-[node name="Chord" type="Timer" parent="."]
-wait_time = 0.2
-one_shot = true
-[connection signal="timeout" from="Chord" to="." method="_on_Chord_timeout"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2( -1.78583, 3.9685 )
+shape = SubResource( 5 )
+[connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]

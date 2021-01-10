@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/miss2.wav-03146b5d0def60b4ac0007fd5f96247b.sample"
+
+[deps]
+
+source_file="res://Things/Player/miss2.wav"
+dest_files=[ "res://.import/miss2.wav-03146b5d0def60b4ac0007fd5f96247b.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

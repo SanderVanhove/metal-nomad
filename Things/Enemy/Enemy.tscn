@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://Things/Enemy/enemy1.png" type="Texture" id=1]
 [ext_resource path="res://Things/Enemy/Enemy.gd" type="Script" id=2]
@@ -15,17 +15,19 @@
 [ext_resource path="res://Things/Enemy/enemy8.png" type="Texture" id=13]
 [ext_resource path="res://Things/Enemy/enemy9.png" type="Texture" id=14]
 [ext_resource path="res://Things/Enemy/enemy11.png" type="Texture" id=15]
+[ext_resource path="res://Things/Enemy/die01.WAV" type="AudioStream" id=16]
+[ext_resource path="res://Things/Enemy/blood01.WAV" type="AudioStream" id=17]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 1 ), ExtResource( 6 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 4 ), ExtResource( 11 ), ExtResource( 10 ), ExtResource( 6 ) ],
-"loop": true,
-"name": "Run",
-"speed": 15.0
-}, {
 "frames": [ ExtResource( 7 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 5 ), ExtResource( 15 ), ExtResource( 8 ), ExtResource( 9 ) ],
 "loop": false,
 "name": "Die",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 1 ), ExtResource( 6 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 4 ), ExtResource( 11 ), ExtResource( 10 ), ExtResource( 6 ) ],
+"loop": true,
+"name": "Run",
 "speed": 15.0
 } ]
 
@@ -35,11 +37,17 @@ radius = 14.0731
 [sub_resource type="CircleShape2D" id=3]
 radius = 372.989
 
+[sub_resource type="AudioStreamRandomPitch" id=4]
+audio_stream = ExtResource( 16 )
+
+[sub_resource type="AudioStreamRandomPitch" id=5]
+audio_stream = ExtResource( 17 )
+
 [node name="Enemy" type="KinematicBody2D"]
 script = ExtResource( 2 )
 
 [node name="Visual" type="Node2D" parent="."]
-scale = Vector2( 1.47922, 1.47922 )
+scale = Vector2( 2.11371, 2.11371 )
 
 [node name="Blood" parent="Visual" instance=ExtResource( 3 )]
 scale = Vector2( 1.38218, 1.38218 )
@@ -47,11 +55,11 @@ scale = Vector2( 1.38218, 1.38218 )
 [node name="Sprite" type="AnimatedSprite" parent="Visual"]
 frames = SubResource( 1 )
 animation = "Run"
-frame = 4
+frame = 3
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-scale = Vector2( 1.47922, 1.47922 )
+scale = Vector2( 2.11371, 2.11371 )
 shape = SubResource( 2 )
 
 [node name="Tween" type="Tween" parent="."]
@@ -61,5 +69,13 @@ shape = SubResource( 2 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
 visible = false
 shape = SubResource( 3 )
+
+[node name="Die" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource( 4 )
+volume_db = -5.076
+
+[node name="Blood" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource( 5 )
+volume_db = -4.039
 [connection signal="body_entered" from="DetectionArea" to="." method="_on_DetectionArea_body_entered"]
 [connection signal="body_exited" from="DetectionArea" to="." method="_on_DetectionArea_body_exited"]

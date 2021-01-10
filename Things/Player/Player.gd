@@ -2,6 +2,10 @@ extends KinematicBody2D
 class_name Player
 
 onready var bullet_class = preload("res://Things/Bullet/Bullet.tscn")
+var misses: Array = [
+	preload("res://Things/Player/miss1.wav"),
+	preload("res://Things/Player/miss2.wav"),
+]
 
 const MAX_SPEED: int = 300
 const ACCELERATION: int = 2000
@@ -9,10 +13,24 @@ const ACCELERATION: int = 2000
 var _motion: Vector2 = Vector2.ZERO
 
 onready var _camera: ShakingCamera = $Camera
-onready var _composer: Composer = $Composer
 onready var _sprite: AnimatedSprite = $Visual/Sprite
-onready var _chord_timer: Timer = $Chord
-onready var _can_move: bool = true
+onready var _chord_particles: CPUParticles2D = $Visual/ChordParticles
+onready var _indicator: Indicator = $Camera/Control/Indicator
+onready var _miss_player: AudioStreamPlayer2D = $Miss
+
+onready var _is_shooting: bool = false
+onready var _is_dead: bool = true
+onready var _last_click: float = 1
+
+
+func reset() -> void:
+	_sprite.animation = "Idle"
+	_is_dead = false
+
+
+func _process(delta: float) -> void:
+	if _last_click > Composer._position_within_beat:
+		_last_click = 0
 
 
 func _input(event: InputEvent) -> void:
@@ -21,8 +39,14 @@ func _input(event: InputEvent) -> void:
 
 
 func fire_bullet(mouse_position: Vector2) -> void:
-	if not _composer.can_shoot():
+	if _is_shooting or not Composer.can_shoot() or _last_click > 0:
+		_last_click = Composer._position_within_beat
+		_indicator.missed()
+		_miss_player.stream.audio_stream = misses[round(rand_range(0, len(misses) - 1))]
+		_miss_player.play()
 		return
+
+	Composer.play_chords()
 
 	var bullet = bullet_class.instance()
 
@@ -34,13 +58,16 @@ func fire_bullet(mouse_position: Vector2) -> void:
 
 	_camera.trigger_small_shake()
 
+	_chord_particles.restart()
+	_chord_particles.emitting = true
+
 	_sprite.animation = "Chord"
 	_sprite.connect("animation_finished", self, "chord_is_strum")
-	_can_move = false
+	_is_shooting = true
 
 
 func chord_is_strum() -> void:
-	_can_move = true
+	_is_shooting = false
 
 
 func hit_an_enemy(enemy: Node2D) -> void:
@@ -48,17 +75,20 @@ func hit_an_enemy(enemy: Node2D) -> void:
 
 
 func _physics_process(delta: float) -> void:
-	if not _can_move:
+	if _is_dead:
 		return
 
 	var axis: Vector2 = get_input_axis()
 
 	if axis == Vector2.ZERO:
 		apply_friction(ACCELERATION * delta)
-		_sprite.animation = "Idle"
+
+		if not _is_shooting:
+			_sprite.animation = "Idle"
 	else:
 		apply_movement(axis * ACCELERATION * delta)
-		_sprite.animation = "Run"
+		if not _is_shooting:
+			_sprite.animation = "Run"
 
 	_sprite.flip_h = get_local_mouse_position().x < 0
 
@@ -94,5 +124,7 @@ func apply_movement(acceleration: Vector2) -> void:
 	_motion = _motion.clamped(MAX_SPEED)
 
 
-func _on_Chord_timeout() -> void:
-	_can_move = true
+func _on_Area2D_body_entered(body: Node) -> void:
+	if body as KinematicBody2D:
+		_is_dead = true
+		(get_parent() as Level).respawn()

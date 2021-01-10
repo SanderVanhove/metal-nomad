@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/die01.WAV-3ac2300404cbda6063f2805a3c0adea0.sample"
+
+[deps]
+
+source_file="res://Things/Enemy/die01.WAV"
+dest_files=[ "res://.import/die01.WAV-3ac2300404cbda6063f2805a3c0adea0.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
