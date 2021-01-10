@@ -13,6 +13,11 @@ const MAX_TIME: float = .5 + MARGIN
 
 var _current_position: float = 0
 var _position_within_beat: float = 0
+var _was_started: bool = false
+
+
+func reset() -> void:
+	_was_started = false
 
 
 func play() -> void:
@@ -21,11 +26,16 @@ func play() -> void:
 	_power_chords.seek(0)
 	_power_chords.play()
 	_power_chords.volume_db = -80
+	_was_started = true
 
 
 func stop() -> void:
 	_music.stop()
 	_power_chords.stop()
+
+
+func is_stopped() -> bool:
+	return not _music.playing and _was_started
 
 
 func _physics_process(delta: float) -> void:

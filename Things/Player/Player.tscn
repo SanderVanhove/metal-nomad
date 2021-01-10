@@ -81,8 +81,7 @@ color_ramp = SubResource( 1 )
 
 [node name="Sprite" type="AnimatedSprite" parent="Visual"]
 frames = SubResource( 2 )
-animation = "Die"
-frame = 4
+animation = "Idle"
 playing = true
 
 [node name="bevel" type="Sprite" parent="Visual"]
@@ -97,6 +96,7 @@ shape = SubResource( 3 )
 
 [node name="Camera" type="Camera2D" parent="."]
 current = true
+zoom = Vector2( 1.3, 1.3 )
 drag_margin_h_enabled = true
 drag_margin_v_enabled = true
 smoothing_enabled = true
@@ -118,6 +118,7 @@ __meta__ = {
 }
 
 [node name="Indicator" parent="Camera/Control" instance=ExtResource( 5 )]
+rect_scale = Vector2( 1.3, 1.3 )
 
 [node name="ScreenShake" parent="Camera" instance=ExtResource( 3 )]
 

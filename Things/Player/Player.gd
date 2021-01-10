@@ -22,7 +22,7 @@ onready var _die_player: AudioStreamPlayer2D = $Die
 onready var _monster_player: AudioStreamPlayer2D = $Monster
 
 onready var _is_shooting: bool = false
-onready var _is_dead: bool = false
+onready var _is_dead: bool = true
 onready var _last_click: float = 1
 
 
@@ -49,7 +49,9 @@ func play_miss_sound() -> void:
 func fire_bullet(mouse_position: Vector2) -> void:
 	if _is_shooting or not Composer.can_shoot() or _last_click > 0 or _is_dead:
 		_last_click = Composer._position_within_beat
-		_indicator.missed()
+
+		if _indicator:
+			_indicator.missed()
 
 		play_miss_sound()
 		return
@@ -143,8 +145,6 @@ func _on_Area2D_body_entered(body: Node) -> void:
 		Composer.stop()
 
 		play_miss_sound()
-
-		_indicator.stop()
 
 
 func _on_DieTimer_timeout() -> void:

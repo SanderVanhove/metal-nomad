@@ -14,6 +14,10 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
+	if Composer.is_stopped():
+		stop()
+		return
+
 	var bar_position = Composer._position_within_beat
 
 	_pick.position.x = _start.position.x - _total_dist * bar_position

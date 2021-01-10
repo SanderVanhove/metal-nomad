@@ -20,7 +20,7 @@ onready var _blood_particles: CPUParticles2D = $Visual/Blood
 onready var _sprite: AnimatedSprite = $Visual/Sprite
 onready var _die_player: AudioStreamPlayer2D = $Die
 
-var _max_speed: int = 200
+var _max_speed: int = 100
 var _motion: Vector2 = Vector2.ZERO
 var _is_chasing: bool = false
 var _player: Node2D
@@ -71,7 +71,6 @@ func hit(projectile: Node2D) -> void:
 	_tween.interpolate_property(_sprite, 'modulate', _sprite.modulate, _sprite.modulate.darkened(.3), .4)
 	_tween.start()
 
-	get_parent().get_node("DeadEnemies").add_child(self)
 	self.z_index = -1
 
 	var player = projectile.shot_by
